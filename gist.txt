@@ -1,0 +1,286 @@
+**Conditional rendering**
+
+<--Clock.js-->
+
+function Clock() {
+ const time = new Date().getHours(); 
+  return time < 12 ? <p>Good Morning!</p>
+    : time > 12 && time < 18 ? <p>Good Afternoon!</p>
+    : <p>Good Evening!</p>
+}
+
+export default Clock;
+
+
+
+<--App.js-->
+
+function App({loggedIn}) {
+  if (!loggedIn){
+    return null;
+  }
+  return <Clock />
+}
+
+
+
+
+
+
+
+
+
+
+**Lists and Tables**
+
+<--Roster.js-->
+
+function Roster(props) {
+  const {detailed, roster} = props;
+  if (!detailed){
+  const newRos = roster.map((name, index)=> {
+    return <li key = {index}>{name.firstName}</li>
+  })
+  return <ol>{newRos}</ol>
+} else{
+  const rows = roster.map((name, index)=> {
+    return  <tr key={index}>
+      <td>{name.firstName}</td>
+      <td>{name.lastName}</td>
+      <td>{name.location}</td>
+    </tr>
+  })
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </table>
+  );
+}
+}
+export default Roster;
+
+
+
+
+
+
+
+
+
+
+
+
+**STYLING**
+
+<--App.js-->
+
+import React from "react";
+import "./App.css"
+
+function App() {
+ const appStyle1 = {
+    fontFamily: "cursive",
+    textAlign : "center",
+  }
+  const appStyle2 = {
+    fontFamily: "monospace",
+    textAlign: "center"
+  }
+  return (
+    <div>
+      <h1 style = {appStyle1}>Hello!</h1>
+      <h4 style= {appStyle2}>How are you?</h4>
+      <h5 className = "App-weather-message">Today is a nice day!</h5>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+<--App.css-->
+
+.App-weather-message {
+  font-family: "sans-serif";
+  color: blue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+**Rendering with React Assignment**
+
+
+
+<--App.js-->
+
+
+import React from "react";
+import Header from "./Top.js";
+import Schedule from "./Schedule.js";
+import Hobbies from "./Hobbies.js";
+import "./Styles.css"
+
+
+let hobbieChunk = "";
+  if (hobbies) {
+    const renderedHobbies = hobbies.map((data, index) => (
+      <li key={index}>{data}</li>
+    ));
+
+    hobbieChunk = (
+      <div>
+        <div className="Row">
+          <h4>Hobbies</h4>
+        </div>
+        <ul className="Col">{renderedHobbies}</ul>
+      </div>
+    );
+  }
+
+  let activitiesChunk = "";
+  if (dailyActivities) {
+    const renderedActivities = dailyActivities.map(
+      ({ time, description }, index) => (
+        <tr className=""  key={index}>
+          <td>{time}</td>
+          <td>{description}</td>
+        </tr>
+      )
+    );
+
+    activitiesChunk = (
+      <table className= "Todo">
+        <tbody>{renderedActivities}</tbody>
+      </table>
+    );
+  }
+
+  return (
+    <div>
+      <div className="Row">
+        <img className="Cap" src={imageSrc}></img>
+        <div className="Col">
+          <h2>{name}</h2>
+          <h3>Birthday: {birthday}</h3>
+        </div>
+      </div>
+      <div>{hobbieChunk}</div>
+      <div className="Row">
+        <div>{activitiesChunk}</div>
+      </div>
+    </div>
+  );
+}
+export default App;
+
+
+
+
+
+<--Hobbies.js--> /*You have to create this.*/
+
+
+import React from "react";
+
+function Hobbies({likes}){
+ const list = likes.map((hobby) => <li>{hobby}</li>);
+ return <ul>{list}</ul>;
+}
+
+export default Hobbies;
+
+
+
+
+
+
+<--Schedule.js--> /*You have to create this.*/
+
+
+import React from "react";
+
+function Schedule({todo = []}){
+ if(todo !== []){
+ const stuff = todo.map(({time, description}, index) => (
+       <tr key={index}>
+          <td>{time}</td>
+          <td>{description}</td>
+       </tr>
+  ));
+  return (
+        <table>
+         <tbody>
+          {stuff}
+         </tbody>
+        </table>
+)}
+  return null; 
+};
+
+export default Schedule;
+
+
+
+
+
+<--Top.js--> /*You have to create this.*/
+
+
+import React from "react";
+
+function Header({name, birthday, imageSrc}){
+return (<div>
+     <div>{name}</div>
+     <div>{birthday}</div>
+       </div>)
+  
+  
+}
+
+export default Header;
+
+
+
+
+
+
+
+<--Styles.css--> /*You have to create this.*/
+
+
+.Cap {
+  width: 50%;
+}
+
+.Row {
+    display: flex;
+    flex-direction: row;
+}
+
+.Col {
+    display: flex;
+    flex-direction: column;
+}
+
+.Todo{
+  border: black;
+  border-style: solid;
+}
